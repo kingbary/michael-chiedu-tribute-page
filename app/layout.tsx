@@ -30,7 +30,7 @@ export default function RootLayout({
       lang="en"
       className={`${cormorantGaramond.variable} ${jost.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col mx-auto max-w-xl px-4 pt-7 border border-gray-300">
+      <body className="min-h-full flex flex-col mx-auto max-w-xl pt-7 border border-gray-300">
         <HeroHeader />
         <div className="flex-1 pb-24">
           {children}
