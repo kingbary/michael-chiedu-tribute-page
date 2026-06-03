@@ -1,15 +1,4 @@
-const photos: { src: string; alt: string; tall: boolean }[] = [
-    { src: "/gallery/photo-1.jpg", alt: "Michael Chiedu Ndika", tall: true },
-    { src: "/gallery/photo-2.jpg", alt: "Michael Chiedu Ndika", tall: false },
-    { src: "/gallery/photo-3.jpg", alt: "Michael Chiedu Ndika", tall: false },
-    { src: "/gallery/photo-4.jpg", alt: "Michael Chiedu Ndika", tall: true },
-    { src: "/gallery/photo-5.jpg", alt: "Michael Chiedu Ndika", tall: false },
-    { src: "/gallery/photo-6.jpg", alt: "Michael Chiedu Ndika", tall: false },
-    { src: "/gallery/photo-7.jpg", alt: "Michael Chiedu Ndika", tall: true },
-    { src: "/gallery/photo-8.jpg", alt: "Michael Chiedu Ndika", tall: false },
-    { src: "/gallery/photo-9.jpg", alt: "Michael Chiedu Ndika", tall: false },
-    { src: "/gallery/photo-10.jpg", alt: "Michael Chiedu Ndika", tall: true },
-];
+import Image from "next/image";
 
 function PhotoPlaceholder({ tall }: { tall: boolean }) {
     return (
@@ -25,7 +14,7 @@ function PhotoPlaceholder({ tall }: { tall: boolean }) {
     );
 }
 
-export default function Gallery() {
+export default function Gallery({ photos }: { photos: string[] }) {
     return (
         <div className="pt-4 pb-6">
             <div className="px-4">
@@ -35,11 +24,26 @@ export default function Gallery() {
             </div>
 
             <div className="columns-2 gap-3 px-4 border-y border-[#E8DAB5] py-6">
-                {photos.map((photo, i) => (
-                    <div key={i} className="break-inside-avoid mb-2">
-                        <PhotoPlaceholder tall={photo.tall} />
-                    </div>
-                ))}
+                {photos.length === 0
+                    ? Array.from({ length: 10 }).map((_, i) => (
+                        <div key={i} className="break-inside-avoid mb-2">
+                            <PhotoPlaceholder tall={i % 3 === 0} />
+                        </div>
+                    ))
+                    : photos.map((url, i) => (
+                        <div key={i} className="break-inside-avoid mb-2">
+                            <div className={`relative w-full rounded-[20px] overflow-hidden ${i % 3 === 0 ? "aspect-3/4" : "aspect-square"}`}>
+                                <Image
+                                    src={url}
+                                    alt="Tribute photo"
+                                    fill
+                                    sizes="50vw"
+                                    className="object-cover"
+                                />
+                            </div>
+                        </div>
+                    ))
+                }
             </div>
 
             <p className="text-primary italic text-center text-base font-bold mt-6">

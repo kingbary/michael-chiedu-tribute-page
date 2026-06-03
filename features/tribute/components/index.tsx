@@ -1,39 +1,65 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useActionState, startTransition, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft } from "@/components/icons/chevron-left";
 import { GalleryAdd } from "@/components/icons/gallery-add";
+import { submitTribute, type SubmitTributeState } from "../actions/submit-tribute";
 
 const MAX_TRIBUTE_LENGTH = 5000;
 const MAX_PHOTOS = 3;
+
+const initialState: SubmitTributeState = { status: "idle" };
 
 export default function Tribute() {
     const router = useRouter();
     const [fullName, setFullName] = useState("");
     const [relationship, setRelationship] = useState("");
     const [tribute, setTribute] = useState("");
-    const [photos, setPhotos] = useState<string[]>([]);
+    const [photos, setPhotos] = useState<{ file: File; url: string }[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const [state, action, pending] = useActionState(submitTribute, initialState);
 
     function handlePhotoAdd(e: React.ChangeEvent<HTMLInputElement>) {
         const files = Array.from(e.target.files ?? []);
         const remaining = MAX_PHOTOS - photos.length;
-        const selected = files.slice(0, remaining);
-        const urls = selected.map((f) => URL.createObjectURL(f));
-        setPhotos((prev) => [...prev, ...urls]);
+        const newPhotos = files.slice(0, remaining).map((f) => ({ file: f, url: URL.createObjectURL(f) }));
+        setPhotos((prev) => [...prev, ...newPhotos]);
         e.target.value = "";
     }
 
     function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
         e.preventDefault();
-        console.log({
-            fullName,
-            relationship,
-            tribute,
-            photos,
-        });
+        const fd = new FormData();
+        fd.append("fullName", fullName);
+        fd.append("relationship", relationship);
+        fd.append("tribute", tribute);
+        for (const { file } of photos) {
+            fd.append("photos", file);
+        }
+        startTransition(() => { action(fd); });
+    }
+
+    if (state.status === "success") {
+        return (
+            <div className="flex flex-col items-center justify-center px-4 py-16 text-center gap-2">
+                <p className="text-primary font-cormorant-garamond italic text-xl font-semibold">
+                    Thank you for your tribute.
+                </p>
+                <p className="text-secondary font-jost text-sm mb-6">
+                    Your memory has been shared.
+                </p>
+                <button
+                    type="button"
+                    onClick={() => router.back()}
+                    className="inline-flex justify-center items-center h-10.5 px-7.75 text-[15px] text-primary font-jost font-medium uppercase tracking-[-1.1%] rounded-full border border-primary transition-colors duration-300 hover:bg-primary hover:text-background"
+                >
+                    Back to tributes
+                </button>
+            </div>
+        );
     }
 
     return (
@@ -50,7 +76,6 @@ export default function Tribute() {
                     Share a memory or word of remembrance.
                 </h2>
             </div>
-
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-5 p-4">
                 <div className="flex flex-col gap-2">
@@ -103,10 +128,10 @@ export default function Tribute() {
                     </label>
                     <div className="grid grid-cols-3 gap-3">
                         {Array.from({ length: MAX_PHOTOS }).map((_, i) => {
-                            const url = photos[i];
-                            return url ? (
+                            const photo = photos[i];
+                            return photo ? (
                                 <div key={i} className="relative aspect-square rounded-[20px] overflow-hidden">
-                                    <Image src={url} alt={`photo ${i + 1}`} fill className="object-cover" />
+                                    <Image src={photo.url} alt={`photo ${i + 1}`} fill sizes="33vw" className="object-cover" />
                                     <button
                                         type="button"
                                         onClick={() => setPhotos((prev) => prev.filter((_, idx) => idx !== i))}
@@ -138,11 +163,16 @@ export default function Tribute() {
                     />
                 </div>
 
+                {state.status === "error" && (
+                    <p className="text-red-500 text-sm font-jost">{state.message}</p>
+                )}
+
                 <button
                     type="submit"
-                    className="inline-flex justify-center items-center h-10.5 px-7.75 text-[15px] text-primary font-jost font-medium uppercase tracking-[-1.1%] rounded-full border border-primary transition-colors duration-300 hover:bg-primary hover:text-background w-fit mt-8"
+                    disabled={pending}
+                    className="inline-flex justify-center items-center h-10.5 px-7.75 text-[15px] text-primary font-jost font-medium uppercase tracking-[-1.1%] rounded-full border border-primary transition-colors duration-300 hover:bg-primary hover:text-background w-fit mt-8 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    Submit Tribute
+                    {pending ? "Submitting..." : "Submit Tribute"}
                 </button>
             </form>
         </div>
