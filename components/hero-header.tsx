@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export function HeroHeader() {
   return (
-    <div className="flex flex-col items-center px-4">
+    <div className="flex flex-col items-center px-4 pb-6">
       <div className="flex flex-col items-center gap-2 mb-6">
         <Cross />
         <h2 className="text-secondary font-jost font-medium">IN LOVING MEMORY</h2>
