@@ -21,7 +21,7 @@ export function HeroHeader() {
           <p className="text-lg text-center font-semibold font-cormorant-garamond italic tracking-[-1.1%]">Beloved father, husband, mentor, and keeper of stories. His light remains.</p>
         </div>
         <div className="mt-5.75">
-          <Link href="/tribute" className="inline-flex justify-center items-center h-10.5 px-7.75 text-[15px] text-primary font-jost font-medium uppercase tracking-[-1.1%] rounded-full border border-primary transition-colors duration-300 hover:bg-primary hover:text-background">Write a tribute</Link>
+          <Link href="/tribute#content" className="inline-flex justify-center items-center h-10.5 px-7.75 text-[15px] text-primary font-jost font-medium uppercase tracking-[-1.1%] rounded-full border border-primary transition-colors duration-300 hover:bg-primary hover:text-background">Write a tribute</Link>
         </div>
       </div>
     </div>
