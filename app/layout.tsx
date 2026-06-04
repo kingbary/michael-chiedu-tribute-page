@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   keywords: ["Michael Chiedu Ndika", "tribute", "in loving memory", "memorial"],
   openGraph: {
     title: "Michael Chiedu Ndika | In Loving Memory",
-    description: "Share your memories and tributes in honour of Michael Chiedu Ndika. Beloved father, husband, mentor, and keeper of stories.",
+    description: "Share your memories and tributes in honour of Michael Chiedu Ndika. Beloved husband, mentor, and keeper of stories.",
     type: "website",
     images: [{ url: "/michael-chiedu-image.jpeg", width: 800, height: 800, alt: "Michael Chiedu Ndika" }],
   },
