@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { supabaseAdmin as supabase } from "@/lib/supabase-admin";
 
 export type SubmitTributeState =
@@ -52,6 +53,9 @@ export async function submitTribute(
     console.error("Database insert error:", error);
     return { status: "error", message: `Submission failed: ${error.message}` };
   }
+
+  revalidatePath("/");
+  revalidatePath("/gallery");
 
   return { status: "success" };
 }

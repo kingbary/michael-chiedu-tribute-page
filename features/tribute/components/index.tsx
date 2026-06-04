@@ -53,7 +53,7 @@ export default function Tribute() {
                 </p>
                 <button
                     type="button"
-                    onClick={() => router.back()}
+                    onClick={() => router.push("/#content")}
                     className="inline-flex justify-center items-center h-10.5 px-7.75 text-[15px] text-primary font-jost font-medium uppercase tracking-[-1.1%] rounded-full border border-primary transition-colors duration-300 hover:bg-primary hover:text-background"
                 >
                     Back to tributes

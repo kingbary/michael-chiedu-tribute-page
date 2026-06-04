@@ -1,5 +1,5 @@
 import Image from "next/image";
-import MichaelImage from "@/public/michael-chiedu-image.webp";
+import MichaelImage from "@/public/michael-chiedu-image.jpeg";
 import { Cross } from "@/components/icons/cross";
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ export function HeroHeader() {
         <h2 className="text-secondary font-jost font-medium">IN LOVING MEMORY</h2>
       </div>
       <div className="flex flex-col items-center">
-        <Image src={MichaelImage} alt="Michael Chiedu Ndika" width={244} height={244} loading="eager" />
+        <Image src={MichaelImage} alt="Michael Chiedu Ndika" width={244} height={244} loading="eager" style={{ height: "auto" }} />
         <div className="flex flex-col items-center mt-6">
           <div className="space-y-1.5">
             <h1 className="text-[#1A1714] text-[28px] font-bold">Michael Chiedu Ndika</h1>

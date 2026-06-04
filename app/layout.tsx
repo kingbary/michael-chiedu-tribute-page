@@ -16,8 +16,22 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
-  title: "Michael Chiedu Ndika Tribute Page",
-  description: "A tribute page dedicated to Michael Chiedu Ndika, celebrating his life and legacy.",
+  title: "Michael Chiedu Ndika | In Loving Memory",
+  description: "A tribute page dedicated to Michael Chiedu Ndika (October 13, 1981 – May 19, 2026). Share your memories, tributes, and photographs celebrating his life and legacy.",
+  keywords: ["Michael Chiedu Ndika", "tribute", "in loving memory", "memorial"],
+  openGraph: {
+    title: "Michael Chiedu Ndika | In Loving Memory",
+    description: "Share your memories and tributes in honour of Michael Chiedu Ndika. Beloved father, husband, mentor, and keeper of stories.",
+    type: "website",
+    images: [{ url: "/michael-chiedu-image.jpeg", width: 800, height: 800, alt: "Michael Chiedu Ndika" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Michael Chiedu Ndika | In Loving Memory",
+    description: "Share your memories and tributes in honour of Michael Chiedu Ndika.",
+    images: ["/michael-chiedu-image.jpeg"],
+  },
+  metadataBase: new URL("https://michael-chiedu-tribute-page.vercel.app"),
 };
 
 export default function RootLayout({
@@ -30,12 +44,12 @@ export default function RootLayout({
       lang="en"
       className={`${cormorantGaramond.variable} ${jost.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col mx-auto max-w-xl pt-7 border border-gray-300">
+      <body className="min-h-full flex flex-col mx-auto max-w-xl pt-7">
         <HeroHeader />
-        <div className="flex-1 pb-24">
+        <div id="content" className="flex-1 pb-24">
           {children}
         </div>
-        <div className="fixed bottom-4 left-0 right-0 px-4">
+        <div className="fixed bg-[#F7F3EE] bottom-0 left-0 right-0 p-4">
           <div className="max-w-xl mx-auto">
             <TabNav />
           </div>
