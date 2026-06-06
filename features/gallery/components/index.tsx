@@ -113,30 +113,66 @@ export default function Gallery({ photos }: { photos: string[] }) {
                 </h2>
             </div>
 
-            <div className="columns-2 gap-3 px-4 border-y border-[#E8DAB5] py-6">
-                {photos.length === 0
-                    ? Array.from({ length: 10 }).map((_, i) => (
-                        <div key={i} className="break-inside-avoid mb-2">
-                            <PhotoPlaceholder tall={i % 3 === 0} />
+            <div className="flex gap-3 px-4 border-y border-[#E8DAB5] py-6">
+                {photos.length === 0 ? (
+                    <>
+                        <div className="flex-1 flex flex-col gap-2">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                                <PhotoPlaceholder key={i} tall={i % 3 === 0} />
+                            ))}
                         </div>
-                    ))
-                    : photos.map((url, i) => (
-                        <div key={i} className="break-inside-avoid mb-2">
-                            <div
-                                className={`relative w-full rounded-[20px] overflow-hidden cursor-pointer ${i % 3 === 0 ? "aspect-3/4" : "aspect-square"}`}
-                                onClick={() => setActiveIndex(i)}
-                            >
-                                <Image
-                                    src={url}
-                                    alt="Tribute photo"
-                                    fill
-                                    sizes="50vw"
-                                    className="object-cover transition-transform duration-200 hover:scale-105"
-                                />
-                            </div>
+                        <div className="flex-1 flex flex-col gap-2">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                                <PhotoPlaceholder key={i} tall={i % 3 === 1} />
+                            ))}
                         </div>
-                    ))
-                }
+                    </>
+                ) : (
+                    <>
+                        <div className="flex-1 flex flex-col gap-2">
+                            {photos.filter((_, i) => i % 2 === 0).map((url, colIndex) => {
+                                const originalIndex = colIndex * 2;
+                                return (
+                                    <div
+                                        key={originalIndex}
+                                        className="rounded-[20px] overflow-hidden cursor-pointer"
+                                        onClick={() => setActiveIndex(originalIndex)}
+                                    >
+                                        <Image
+                                            src={url}
+                                            alt="Tribute photo"
+                                            width={600}
+                                            height={800}
+                                            sizes="50vw"
+                                            className="w-full h-auto transition-transform duration-200 hover:scale-105"
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <div className="flex-1 flex flex-col gap-2">
+                            {photos.filter((_, i) => i % 2 === 1).map((url, colIndex) => {
+                                const originalIndex = colIndex * 2 + 1;
+                                return (
+                                    <div
+                                        key={originalIndex}
+                                        className="rounded-[20px] overflow-hidden cursor-pointer"
+                                        onClick={() => setActiveIndex(originalIndex)}
+                                    >
+                                        <Image
+                                            src={url}
+                                            alt="Tribute photo"
+                                            width={600}
+                                            height={800}
+                                            sizes="50vw"
+                                            className="w-full h-auto transition-transform duration-200 hover:scale-105"
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </>
+                )}
             </div>
 
             <p className="text-primary italic text-center text-base font-bold mt-6">
